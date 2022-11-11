@@ -4,13 +4,17 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torchvision import transforms as T
 
-from vit_cosine_flash import ViT
+import wandb
+
+from vit_cosine_sim_flash import ViT
+
+wandb.init(project="my-test-project")
 
 DEVICE = 'cuda'
 IMAGE_SIZE = 224
-BATCH_SIZE = 32
+BATCH_SIZE = 4
 LEARNING_RATE = 6e-4
-EPOCHS = 10
+EPOCHS = 100
 
 train_transform = T.Compose([
     T.Resize(IMAGE_SIZE),
@@ -107,3 +111,4 @@ for epoch in range(EPOCHS):
     print(
         f"Epoch : {epoch+1} - loss : {epoch_loss:.4f} - acc: {epoch_acc:.4f} - val_loss : {epoch_val_loss:.4f} - val_acc: {epoch_val_acc:.4f}\n"
     )
+    wandb.log({"epoch": epoch, "train loss": epoch_loss, "train acc": epoch_acc, "val loss": epoch_val_loss, "val acc": epoch_val_acc})
