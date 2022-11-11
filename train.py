@@ -4,15 +4,21 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10
 from torchvision import transforms as T
 
+import tqdm
+import argparse
 import wandb
 
 from vit_cosine_sim_flash import ViT
 
 wandb.init(project="my-test-project")
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', default = 4, type = int)
+args = parser.parse_args()
+
 DEVICE = 'cuda'
 IMAGE_SIZE = 224
-BATCH_SIZE = 4
+BATCH_SIZE = args.batch_size
 LEARNING_RATE = 6e-4
 EPOCHS = 100
 
@@ -75,7 +81,7 @@ optimizer = torch.optim.Adam(
     lr = LEARNING_RATE,
 )
 
-for epoch in range(EPOCHS):
+for epoch in tqdm.tqdm(range(EPOCHS), desc='training'):
     epoch_loss = 0
     epoch_acc = 0
     for images, labels in train_loader:
