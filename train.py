@@ -19,7 +19,7 @@ args = parser.parse_args()
 DEVICE = 'cuda'
 IMAGE_SIZE = 224
 BATCH_SIZE = args.batch_size
-LEARNING_RATE = 6e-4
+LEARNING_RATE = 2e-4
 EPOCHS = 100
 
 train_transform = T.Compose([
